@@ -24,9 +24,9 @@ RUN apk add --no-cache ca-certificates
 
 WORKDIR /app
 COPY --from=builder /app/target/release/kiro-rs /app/kiro-rs
-
-VOLUME ["/app/config"]
+COPY docker/zeabur-entrypoint.sh /usr/local/bin/zeabur-entrypoint.sh
+RUN chmod +x /usr/local/bin/zeabur-entrypoint.sh
 
 EXPOSE 8990
 
-CMD ["./kiro-rs", "-c", "/app/config/config.json", "--credentials", "/app/config/credentials.json"]
+ENTRYPOINT ["/usr/local/bin/zeabur-entrypoint.sh"]
